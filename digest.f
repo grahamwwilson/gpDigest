@@ -35,11 +35,16 @@
          call myfill(x1,x2)
          call hfill(301,real(z),0.0,1.0)
          call hfill(302,real(abs(z)),0.0,1.0)
-         call hfill(303,real(abs(z)),0.0,1.0)                  
+         call hfill(303,real(abs(z)),0.0,1.0)
+         call hfill(304,real(abs(z)),0.0,1.0)                            
       elseif(imode.eq.1.and.z.ge.0.0d0)then
          call myfill(x1,x2)
       elseif(imode.eq.-1.and.z.lt.0.0d0)then
          call myfill(x1,x2)
+      elseif(imode.eq.3.and.abs(z).ge.140.6675d0)then
+         call myfill(x1,x2)
+      elseif(imode.eq.4.and.abs(z).lt.140.6675d0)then
+         call myfill(x1,x2)               
       endif    
       goto 10
       
@@ -55,6 +60,10 @@
          call hrput(0,'gplumi-Run5-pluszv.hbook','NT')
       elseif(imode.eq.-1)then
          call hrput(0,'gplumi-Run5-minuszv.hbook','NT')
+      elseif(imode.eq.3)then
+         call hrput(0,'gplumi-Run5-bigzv.hbook','NT')
+      elseif(imode.eq.4)then
+         call hrput(0,'gplumi-Run5-smallzv.hbook','NT')
       else
          print *,'SHOULD NOT HAPPEN! '
       endif

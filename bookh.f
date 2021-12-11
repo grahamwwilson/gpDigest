@@ -32,6 +32,8 @@
 
       call hbook1(301,'zPV (microns)',2000,-1000.0,1000.0,0.0)
       call hbook1(302,'|zPV| (microns)',2000,0.0,1000.0,0.0)
-      call hbook1(303,'|zPV| (microns)',2000,0.0,200.0,0.0)            
+      call hbook1(303,'|zPV| (microns)',2000,0.0,200.0,0.0)
+* This is for fine-tuning the observed |zPV| median value      
+      call hbook1(304,'|zPV| (microns)',100,140.6,140.7,0.0)                 
            
       end
