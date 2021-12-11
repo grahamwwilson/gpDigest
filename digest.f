@@ -20,7 +20,7 @@
       call hlimit(nwpawc)
       call bookh
       
-      open(lun,file='lumi.ee.out',status='old')
+      open(lun,file='lumi-Run7.ee.out',status='old')
 
 * Loop line by line until end of file      
   10  continue
@@ -55,15 +55,15 @@
       call hprint(108)
       
       if(imode.eq.0)then
-         call hrput(0,'gplumi-Run5.hbook','NT')
+         call hrput(0,'gplumi-Run7.hbook','NT')
       elseif(imode.eq.1)then
-         call hrput(0,'gplumi-Run5-pluszv.hbook','NT')
+         call hrput(0,'gplumi-Run7-pluszv.hbook','NT')
       elseif(imode.eq.-1)then
-         call hrput(0,'gplumi-Run5-minuszv.hbook','NT')
+         call hrput(0,'gplumi-Run7-minuszv.hbook','NT')
       elseif(imode.eq.3)then
-         call hrput(0,'gplumi-Run5-bigzv.hbook','NT')
+         call hrput(0,'gplumi-Run7-bigzv.hbook','NT')
       elseif(imode.eq.4)then
-         call hrput(0,'gplumi-Run5-smallzv.hbook','NT')
+         call hrput(0,'gplumi-Run7-smallzv.hbook','NT')
       else
          print *,'SHOULD NOT HAPPEN! '
       endif
