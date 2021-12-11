@@ -33,11 +33,14 @@
       x2 = x2/Ebeam
       if(imode.eq.0)then
          call myfill(x1,x2)
+         call hfill(301,real(z),0.0,1.0)
+         call hfill(302,real(abs(z)),0.0,1.0)
+         call hfill(303,real(abs(z)),0.0,1.0)                  
       elseif(imode.eq.1.and.z.ge.0.0d0)then
          call myfill(x1,x2)
       elseif(imode.eq.-1.and.z.lt.0.0d0)then
          call myfill(x1,x2)
-      endif               
+      endif    
       goto 10
       
  999  continue     
