@@ -5,3 +5,6 @@ findbin.f
 x1bins*.dat
 x2bins*.dat
 *.hbook
+last.kuma*
+*.root
+imode.f

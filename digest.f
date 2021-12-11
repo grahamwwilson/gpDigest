@@ -8,6 +8,8 @@
       include 'hinit.f'
       integer i,lun
       parameter (lun = 25)
+* Use imode to control which configuration we run (see redo.sh script too).
+      include 'imode.f'
       
       double precision x1,x2,x,y,z,x1p,y1p,x2p,y2p
       double precision Ebeam
@@ -29,7 +31,13 @@
 * Compute scaled energies using nominal beam energy
       x1 = x1/Ebeam
       x2 = x2/Ebeam
-      call myfill(x1,x2)
+      if(imode.eq.0)then
+         call myfill(x1,x2)
+      elseif(imode.eq.1.and.z.ge.0.0d0)then
+         call myfill(x1,x2)
+      elseif(imode.eq.-1.and.z.lt.0.0d0)then
+         call myfill(x1,x2)
+      endif               
       goto 10
       
  999  continue     
@@ -37,7 +45,16 @@
       
       call hprint(107)
       call hprint(108)
-      call hrput(0,'gplumi-Run5.hbook','NT')      
+      
+      if(imode.eq.0)then
+         call hrput(0,'gplumi-Run5.hbook','NT')
+      elseif(imode.eq.1)then
+         call hrput(0,'gplumi-Run5-pluszv.hbook','NT')
+      elseif(imode.eq.-1)then
+         call hrput(0,'gplumi-Run5-minuszv.hbook','NT')
+      else
+         print *,'SHOULD NOT HAPPEN! '
+      endif
       
       end
       
