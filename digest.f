@@ -20,7 +20,7 @@
       call hlimit(nwpawc)
       call bookh
       
-      open(lun,file='lumi-Run7.ee.out',status='old')
+      open(lun,file='lumi.ee.out',status='old')
 
 * Loop line by line until end of file      
   10  continue
@@ -32,19 +32,19 @@
       x1 = x1/Ebeam
       x2 = x2/Ebeam
       if(imode.eq.0)then
-         call myfill(x1,x2)
+         call myfill(x1,x2,z)
          call hfill(301,real(z),0.0,1.0)
          call hfill(302,real(abs(z)),0.0,1.0)
          call hfill(303,real(abs(z)),0.0,1.0)
          call hfill(304,real(abs(z)),0.0,1.0)                            
       elseif(imode.eq.1.and.z.ge.0.0d0)then
-         call myfill(x1,x2)
+         call myfill(x1,x2,z)
       elseif(imode.eq.-1.and.z.lt.0.0d0)then
-         call myfill(x1,x2)
+         call myfill(x1,x2,z)
       elseif(imode.eq.3.and.abs(z).ge.140.6675d0)then
-         call myfill(x1,x2)
+         call myfill(x1,x2,z)
       elseif(imode.eq.4.and.abs(z).lt.140.6675d0)then
-         call myfill(x1,x2)               
+         call myfill(x1,x2,z)               
       endif    
       goto 10
       
@@ -54,28 +54,33 @@
       call hprint(107)
       call hprint(108)
       
-      if(imode.eq.0)then
-         call hrput(0,'gplumi-Run7.hbook','NT')
-      elseif(imode.eq.1)then
-         call hrput(0,'gplumi-Run7-pluszv.hbook','NT')
-      elseif(imode.eq.-1)then
-         call hrput(0,'gplumi-Run7-minuszv.hbook','NT')
-      elseif(imode.eq.3)then
-         call hrput(0,'gplumi-Run7-bigzv.hbook','NT')
-      elseif(imode.eq.4)then
-         call hrput(0,'gplumi-Run7-smallzv.hbook','NT')
-      else
-         print *,'SHOULD NOT HAPPEN! '
-      endif
+      call hrput(0,'gplumi.hbook','NT')
+      
+* Move file-handling to shell script
+*      if(imode.eq.0)then
+*         call hrput(0,'gplumi.hbook','NT')
+*      elseif(imode.eq.1)then
+*         call hrput(0,'gplumi-pluszv.hbook','NT')
+*      elseif(imode.eq.-1)then
+*         call hrput(0,'gplumi-minuszv.hbook','NT')
+*      elseif(imode.eq.3)then
+*         call hrput(0,'gplumi-bigzv.hbook','NT')
+*      elseif(imode.eq.4)then
+*         call hrput(0,'gplumi-smallzv.hbook','NT')
+*      else
+*         print *,'SHOULD NOT HAPPEN! '
+*      endif
       
       end
       
-      subroutine myfill(x1,x2)
+      subroutine myfill(x1,x2,z)
 * FIXME - make more amenable to alternative numbers of bins
       implicit none
-      double precision x1,x2
+      double precision x1,x2,z
       integer ibin1,ibin2,icomb
       integer findbinx1,findbinx2
+      double precision Ebeam
+      parameter (Ebeam = 125.0d0)      
       
       ibin1 = findbinx1(x1)
       ibin2 = findbinx2(x2)
@@ -90,6 +95,22 @@
       call hfill(108,real(ibin2),0.0,1.0)
       call hfill(109,real(ibin1),real(ibin2),1.0)
       call hfill(111,real(icomb),0.0,1.0)
+      
+      call hfill(29,real(Ebeam*x1),0.0,1.0)
+      call hfill(30,real(Ebeam*x2),0.0,1.0)
+      call hfill(31,real(Ebeam*x1),real(Ebeam*x2),1.0)
+      call hfill(32,real(z),real(Ebeam*x1),1.0)
+      call hfill(33,real(z),real(Ebeam*x2),1.0)
+      call hfill(1,real(2.0*Ebeam*sqrt(x1*x2)),0.0,1.0)
+      
+      if(z.lt.0.0d0)then
+          call hfill(41,real(Ebeam*x1),0.0,1.0)
+          call hfill(43,real(Ebeam*x2),0.0,1.0)
+      else
+          call hfill(42,real(Ebeam*x1),0.0,1.0)
+          call hfill(44,real(Ebeam*x2),0.0,1.0)
+      endif          
+          
       
       end
       include 'bookh.f'      

@@ -34,6 +34,23 @@
       call hbook1(302,'|zPV| (microns)',2000,0.0,1000.0,0.0)
       call hbook1(303,'|zPV| (microns)',2000,0.0,200.0,0.0)
 * This is for fine-tuning the observed |zPV| median value      
-      call hbook1(304,'|zPV| (microns)',100,140.6,140.7,0.0)                 
-           
+      call hbook1(304,'|zPV| (microns)',100,140.6,140.7,0.0)
+      
+* Choose same binning as in Analysis.C
+      call hbook1(1,'CoM Energy',2048,220.0,271.2,0.0)
+      call hbook1(29,'Electron Energy',256,120.0,126.4,0.0)
+      call hbook1(30,'Positron Energy',256,120.0,126.4,0.0)
+      call hbook2(31,'AfterBS E+ vs E-',300,120.0,126.0,
+     +            300,120.0,126.0,0.0);
+      call hbook2(32,'E- vs z',320,-800.0,800.0,300,
+     +            120.0,126.0,0.0)
+      call hbook2(33,'E+ vs z',320,-800.0,800.0,300,
+     +            120.0,126.0,0.0)
+
+      call hbook1(41,'E- ',70,122.5,126.0,0.0)
+      call hbook1(42,'E- ',70,122.5,126.0,0.0)
+      call hbook1(43,'E+ ',70,122.5,126.0,0.0)
+      call hbook1(44,'E+ ',70,122.5,126.0,0.0)
+               
+                        
       end
