@@ -10,8 +10,14 @@
       parameter (lun = 25)
 * Use imode to control which configuration we run (see redo.sh script too).
       include 'imode.f'
-      
+      logical lsmear
+      parameter (lsmear=.true.)
       double precision x1,x2,x,y,z,x1p,y1p,x2p,y2p
+      double precision x1o,x2o
+      double precision s1,s2
+      double precision hsqrtso
+      parameter (s2=0.152d-2, s1=0.190d-2)
+      double precision rg1,rg2
       double precision Ebeam
       parameter (Ebeam = 125.0d0)
       integer spin(6)
@@ -28,23 +34,34 @@
       if(iorder.le.10)then
          print *,x1,x2,x,y,z,itime,x1p,y1p,x2p,y2p,spin,iorder
       endif
+      
+      x1o = x1
+      x2o = x2
+      hsqrtso = sqrt(x1o*x2o)
+      
+      if(lsmear)then
+          call getgauss(rg1,rg2)
+          x1 = x1 + s1*rg1*Ebeam
+          x2 = x2 + s2*rg2*Ebeam
+      endif 
+      
 * Compute scaled energies using nominal beam energy
       x1 = x1/Ebeam
       x2 = x2/Ebeam
       if(imode.eq.0)then
-         call myfill(x1,x2,z)
+         call myfill(x1,x2,z,hsqrtso)
          call hfill(301,real(z),0.0,1.0)
          call hfill(302,real(abs(z)),0.0,1.0)
          call hfill(303,real(abs(z)),0.0,1.0)
          call hfill(304,real(abs(z)),0.0,1.0)                            
       elseif(imode.eq.1.and.z.ge.0.0d0)then
-         call myfill(x1,x2,z)
+         call myfill(x1,x2,z,hsqrtso)
       elseif(imode.eq.-1.and.z.lt.0.0d0)then
-         call myfill(x1,x2,z)
+         call myfill(x1,x2,z,hsqrtso)
       elseif(imode.eq.3.and.abs(z).ge.140.6675d0)then
-         call myfill(x1,x2,z)
+         call myfill(x1,x2,z,hsqrtso)
       elseif(imode.eq.4.and.abs(z).lt.140.6675d0)then
-         call myfill(x1,x2,z)               
+         call myfill(x1,x2,z,hsqrtso)               
       endif    
       goto 10
       
@@ -73,10 +90,11 @@
       
       end
       
-      subroutine myfill(x1,x2,z)
+      subroutine myfill(x1,x2,z,hsqrtso)
 * FIXME - make more amenable to alternative numbers of bins
       implicit none
       double precision x1,x2,z
+      double precision hsqrtso
       integer ibin1,ibin2,icomb
       integer findbinx1,findbinx2
       double precision Ebeam
@@ -99,9 +117,29 @@
       call hfill(29,real(Ebeam*x1),0.0,1.0)
       call hfill(30,real(Ebeam*x2),0.0,1.0)
       call hfill(31,real(Ebeam*x1),real(Ebeam*x2),1.0)
+      
+      if(hsqrtso/ebeam.lt.0.9999996d0)then
+         call hfill(429,real(Ebeam*x1),0.0,1.0)
+         call hfill(430,real(Ebeam*x2),0.0,1.0)
+         call hfill(401,real(2.0*Ebeam*sqrt(x1*x2)),0.0,1.0)
+         call hfill(402,real(2.0*Ebeam*sqrt(x1*x2)),0.0,1.0)         
+      else
+         call hfill(529,real(Ebeam*x1),0.0,1.0)
+         call hfill(530,real(Ebeam*x2),0.0,1.0)
+         call hfill(501,real(2.0*Ebeam*sqrt(x1*x2)),0.0,1.0)      
+         call hfill(502,real(2.0*Ebeam*sqrt(x1*x2)),0.0,1.0)         
+      endif
+      
       call hfill(32,real(z),real(Ebeam*x1),1.0)
       call hfill(33,real(z),real(Ebeam*x2),1.0)
       call hfill(1,real(2.0*Ebeam*sqrt(x1*x2)),0.0,1.0)
+      call hfill(2,real(2.0*Ebeam*sqrt(x1*x2)),0.0,1.0) 
+      call hfill(3,real(2.0*Ebeam*sqrt(x1*x2)),0.0,1.0)
+      call hfill(4,real(2.0*Ebeam*sqrt(x1*x2)),0.0,1.0)
+      call hfill(5,real(2.0*Ebeam*sqrt(x1*x2)),0.0,1.0)
+      call hfill(6,real(2.0*Ebeam*sqrt(x1*x2)),0.0,1.0)
+      call hfill(7,real(2.0*Ebeam*sqrt(x1*x2)),0.0,1.0) 
+      call hfill(8,real(2.0*Ebeam*sqrt(x1*x2)),0.0,1.0)                          
       
       if(z.lt.0.0d0)then
           call hfill(41,real(Ebeam*x1),0.0,1.0)
@@ -115,3 +153,4 @@
       end
       include 'bookh.f'      
       include 'findbin.f'
+      include 'getgauss.f'

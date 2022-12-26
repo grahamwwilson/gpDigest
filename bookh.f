@@ -38,8 +38,28 @@
       
 * Choose same binning as in Analysis.C
       call hbook1(1,'CoM Energy',2048,220.0,271.2,0.0)
+      call hbook1(2,'CoM Energy',114,245.0,250.7,0.0) 
+             
+      call hbook1(3,'CoM Energy',124,245.0,251.2,0.0)
+      call hbook1(4,'CoM Energy',248,245.0,251.2,0.0)
+      call hbook1(5,'CoM Energy',448,240.0,251.2,0.0)
+      call hbook1(6,'CoM Energy',1248,220.0,251.2,0.0) 
+      call hbook1(7,'CoM Energy',624,220.0,251.2,0.0)  
+      call hbook1(8,'CoM Energy',312,220.0,251.2,0.0)                 
+                         
       call hbook1(29,'Electron Energy',256,120.0,126.4,0.0)
       call hbook1(30,'Positron Energy',256,120.0,126.4,0.0)
+      
+      call hbook1(401,'CoM Energy',2048,220.0,271.2,0.0)
+      call hbook1(402,'CoM Energy',114,245.0,250.7,0.0)      
+      call hbook1(429,'Electron Energy',256,120.0,126.4,0.0)
+      call hbook1(430,'Positron Energy',256,120.0,126.4,0.0)
+      
+      call hbook1(501,'CoM Energy',2048,220.0,271.2,0.0)
+      call hbook1(502,'CoM Energy',114,245.0,250.7,0.0)       
+      call hbook1(529,'Electron Energy',256,120.0,126.4,0.0)
+      call hbook1(530,'Positron Energy',256,120.0,126.4,0.0)      
+            
       call hbook2(31,'AfterBS E+ vs E-',300,120.0,126.0,
      +            300,120.0,126.0,0.0);
       call hbook2(32,'E- vs z',320,-800.0,800.0,300,

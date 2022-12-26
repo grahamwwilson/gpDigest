@@ -7,7 +7,7 @@ SUFFIX=$1
 echo 'SUFFIX: '${SUFFIX}
 
 h2root gplumi.hbook
-rm gplumi.hbook
+mv gplumi.hbook gplumi-${SUFFIX}.hbook
 mv gplumi.root gplumi-${SUFFIX}.root
 
 exit

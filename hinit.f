@@ -1,4 +1,4 @@
       integer nwpawc
-      parameter (nwpawc=10000000)
+      parameter (nwpawc=20000000)
       real hmemor
       common/pawc/hmemor(nwpawc)
